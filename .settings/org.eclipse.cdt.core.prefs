@@ -1,0 +1,14 @@
+doxygen/doxygen_new_line_after_brief=true
+doxygen/doxygen_use_brief_tag=false
+doxygen/doxygen_use_javadoc_tags=true
+doxygen/doxygen_use_pre_tag=false
+doxygen/doxygen_use_structural_commands=false
+eclipse.preferences.version=1
+environment/project/cdt.managedbuild.toolchain.gnu.cross.base.1018096363.126760642/IDF_PATH/delimiter=\:
+environment/project/cdt.managedbuild.toolchain.gnu.cross.base.1018096363.126760642/IDF_PATH/operation=append
+environment/project/cdt.managedbuild.toolchain.gnu.cross.base.1018096363.126760642/IDF_PATH/value=/home/j/eclipse-workspace/esp32/source/esp-idf/
+environment/project/cdt.managedbuild.toolchain.gnu.cross.base.1018096363.126760642/PATH/delimiter=\:
+environment/project/cdt.managedbuild.toolchain.gnu.cross.base.1018096363.126760642/PATH/operation=replace
+environment/project/cdt.managedbuild.toolchain.gnu.cross.base.1018096363.126760642/PATH/value=/home/j/.espressif/tools/xtensa-esp32-elf/esp-2019r2-8.2.0/xtensa-esp32-elf/bin\:/home/j/eclipse-workspace/source/esp-python-venv/bin\:/home/j/.local/bin\:/usr/local/sbin\:/usr/local/bin\:/usr/bin\:/var/lib/flatpak/exports/bin\:/usr/lib/jvm/default/bin\:/usr/bin/site_perl\:/usr/bin/vendor_perl\:/usr/bin/core_perl\:/var/lib/snapd/snap/bin
+environment/project/cdt.managedbuild.toolchain.gnu.cross.base.1018096363.126760642/append=true
+environment/project/cdt.managedbuild.toolchain.gnu.cross.base.1018096363.126760642/appendContributed=true
