@@ -9,14 +9,6 @@
 
 
 esp_ip4_addr_t ip_info;
-/* FreeRTOS event group to signal when we are connected*/
-static EventGroupHandle_t s_wifi_event_group;
-
-/* The event group allows multiple bits for each event, but we only care about two events:
- * - we are connected to the AP with an IP
- * - we failed to connect after the maximum amount of retries */
-#define WIFI_CONNECTED_BIT BIT0
-#define WIFI_FAIL_BIT      BIT1
 
 static const char *TAG = "wifi_station";
 static int s_retry_num = 0;
@@ -45,8 +37,7 @@ static void event_handler(void *arg, esp_event_base_t event_base,
 	}
 }
 
-void wifi_init_sta(void) {
-	s_wifi_event_group = xEventGroupCreate();
+esp_err_t wifi_init_sta(void) {
 
 	ESP_ERROR_CHECK(esp_netif_init());
 
@@ -80,24 +71,29 @@ void wifi_init_sta(void) {
 	pdFALSE,
 	pdFALSE,
 	portMAX_DELAY);
-
-	/* xEventGroupWaitBits() returns the bits before the call returned, hence we can test which event actually
-	 * happened. */
-	if (bits & WIFI_CONNECTED_BIT) {
-		ESP_LOGI(TAG, "connected to ap SSID:%s password:%s", ESP_WIFI_SSID,
-				ESP_WIFI_PASS);
-	} else if (bits & WIFI_FAIL_BIT) {
-		ESP_LOGI(TAG, "Failed to connect to SSID:%s, password:%s",
-				ESP_WIFI_SSID, ESP_WIFI_PASS);
-	} else {
-		ESP_LOGE(TAG, "UNEXPECTED EVENT");
-	}
-
+	vEventGroupDelete(s_wifi_event_group);
 	/* The event will not be processed after unregister */
 	ESP_ERROR_CHECK(
 			esp_event_handler_instance_unregister(IP_EVENT, IP_EVENT_STA_GOT_IP,
 					instance_got_ip));
 	ESP_ERROR_CHECK(
 			esp_event_handler_instance_unregister(WIFI_EVENT, ESP_EVENT_ANY_ID, instance_any_id));
-	vEventGroupDelete(s_wifi_event_group);
+
+	/* xEventGroupWaitBits() returns the bits before the call returned, hence we can test which event actually
+	 * happened. */
+	if (bits & WIFI_CONNECTED_BIT) {
+		ESP_LOGI(TAG, "connected to ap SSID:%s password:%s", ESP_WIFI_SSID,
+				ESP_WIFI_PASS);
+		xEventGroupSetBits(status_group,WIFI_STATUS_OK);
+		return ESP_OK;
+	} else if (bits & WIFI_FAIL_BIT) {
+		ESP_LOGI(TAG, "Failed to connect to SSID:%s, password:%s",
+				ESP_WIFI_SSID, ESP_WIFI_PASS);
+		return ESP_FAIL;
+	} else {
+		ESP_LOGE(TAG, "UNEXPECTED EVENT");
+		return ESP_FAIL;
+	}
+
+	return ESP_FAIL;
 }
