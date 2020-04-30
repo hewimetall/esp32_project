@@ -10,7 +10,7 @@ static const char *TAG = "Tcp Drive";
 
 esp_err_t tcp_socket_init(int *sock){
 	/* Get head socket*/
-	*sock = socket(AF_INET, SOCK_STREAM, IPPROTO_IP);
+	*sock = socket(AF_INET, SOCK_STREAM, 0);
 	if (*sock < 0) {
 		ESP_LOGE(TAG, "Unable to create socket: errno %d", errno);
 		return ESP_FAIL;
@@ -25,7 +25,7 @@ esp_err_t tcp_socket_conn(int *sock){
 	dest_addr.sin_family = AF_INET;
 	dest_addr.sin_port = htons(PORT);
 	int err = connect(*sock, (struct sockaddr*) &dest_addr,
-					sizeof(struct sockaddr_in6));
+					sizeof(dest_addr));
 	if (err != 0) {
 		ESP_LOGE(TAG, "Socket unable to connect: errno %d", errno);
 		return ESP_FAIL;
@@ -56,7 +56,7 @@ esp_err_t tcp_socket_send_start(int *sock){
 
 int tcp_socket_recv(int *sock,void *mem,size_t len){
 	int my_len=0;
-	my_len =recv(*sock,mem,len-1,0);
+	my_len =recv(*sock,mem,len-1,MSG_WAITALL);
 	if (my_len <= 0){
 			ESP_LOGI(TAG, "date not resive");
 			return -1;
@@ -85,18 +85,18 @@ void tcp_client_task(void *pvParameters) {
 	}else{
 		xEventGroupSetBits(status_group, IP_RECV_OK);
 	}
-	while (1 && err) {
-			rx_buffer[rx_len]='\0';
+	while (!err) {
+			bzero(rx_buffer,rx_len);
 			// Data received
-			ESP_LOGI(TAG, "Received byte");
-			len=recv(my_socket,(void *) &rx_buffer,rx_len,0);
-			if(len==0 || len==-1){
+			ESP_LOGI(TAG, "Received byte %s ",rx_buffer);
+			len=recv(my_socket,&rx_buffer,11,MSG_WAITALL);
+			if(len < 0){
 				xEventGroupClearBits(status_group, IP_RECV_OK);
 				ESP_LOGE(TAG,"ERROS loops");
 				break;
 			}
 
-			ESP_LOGI(TAG,"Recieved date: %s",rx_buffer);
+			ESP_LOGI(TAG,"Recieved date: %s::%i",rx_buffer,len);
 
 			/* send copy date for queue */
 			xQueueSend(socket_r_date,(void *) &rx_buffer,0);

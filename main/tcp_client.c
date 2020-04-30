@@ -21,7 +21,7 @@ void print_date(void){
 	vTaskDelete(NULL);
 }
 void app_main(void) {
-	char buff[LEN_QUEUE_BUFF];
+	char buff[128];
 	ESP_LOGD(TAG, "START");
 
 //Initialize NVS

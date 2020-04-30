@@ -15,6 +15,10 @@
 #include "lwip/sockets.h"
 #include "esp_netif_ip_addr.h"
 
+/*define conf */
+#define LWIP_DEBUG   1
+#define SOCKETS_DEBUG  LWIP_DBG_ON
+
 /* General config */
 #define LEN_QUEUE_BUFF 4
 QueueHandle_t socket_r_date;
