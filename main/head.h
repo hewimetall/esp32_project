@@ -42,6 +42,8 @@ EventGroupHandle_t s_wifi_event_group;
  * - we failed to connect after the maximum amount of retries*/
 #define WIFI_CONNECTED_BIT BIT0
 #define WIFI_FAIL_BIT      BIT1
+#define UDP_SEND_ACTIVE    BIT2
+#define UDP_DATE_ACTIVE    BIT2
 
 #define ESP_WIFI_SSID      "test_wifi"
 #define ESP_WIFI_PASS      "test1234"
@@ -62,4 +64,6 @@ void tcp_client_task(void *pvParameters);
 /* UDP CONF */
 void udp_client_task(void *pvParameters);
 
+/*JSON */
+esp_err_t solve_json(char *istr) ;
 #endif
