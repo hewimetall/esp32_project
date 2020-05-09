@@ -57,4 +57,9 @@ esp_err_t wifi_init_sta(void);
 #define MAX_DATE_LENS 60
 void tcp_client_task(void *pvParameters);
 
+
+
+/* UDP CONF */
+void udp_client_task(void *pvParameters);
+
 #endif

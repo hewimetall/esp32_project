@@ -31,7 +31,7 @@ void app_main(void) {
 		ret = nvs_flash_init();
 	}
 	ESP_ERROR_CHECK(ret);
-//Initialize static date
+	//Initialize static date
 	/*Create  event group */
 	s_wifi_event_group = xEventGroupCreate();
 	status_group = xEventGroupCreate();
@@ -41,7 +41,9 @@ void app_main(void) {
 	ESP_LOGI(TAG, "ESP_WIFI_MODE_STA");
 	ret=wifi_init_sta();
 	if(ret == ESP_OK){
-		xTaskCreate(&tcp_client_task, "TCP_Client", 2048, NULL, 5, NULL);
+//		xTaskCreate(&tcp_client_task, "TCP_Client", 2048, NULL, 5, NULL);
+	    xTaskCreate(&udp_client_task, "udp_client", 2048, NULL, 5, NULL);
+
 	}else{
 		ESP_LOGW(TAG,"FAIL wifi_init_sta");
 	}
