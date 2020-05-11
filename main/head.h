@@ -66,4 +66,8 @@ void udp_client_task(void *pvParameters);
 
 /*JSON */
 esp_err_t solve_json(char *istr) ;
+/* Motor */
+void motor_init_d(void);
+void motor_set_state(int *row);
+
 #endif
