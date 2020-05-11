@@ -50,5 +50,6 @@ esp_err_t solve_json(char *istr) {
 		return ESP_FAIL;
 	}
 	ESP_LOGI(TAG,"DATE: X:%s : Y:%s : Z:%s", adm.x, adm.y, adm.z);
+
 	return ESP_OK;
 }
