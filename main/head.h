@@ -45,8 +45,8 @@ EventGroupHandle_t s_wifi_event_group;
 #define UDP_SEND_ACTIVE    BIT2
 #define UDP_DATE_ACTIVE    BIT2
 
-#define ESP_WIFI_SSID      "test_wifi"
-#define ESP_WIFI_PASS      "test1234"
+#define ESP_WIFI_SSID      "ESP32_wifi"
+#define ESP_WIFI_PASS      "ESP32_wifi123123123"
 #define ESP_WIFI_CHANNEL	0  /**< channel of target AP. Set to 1~13 to scan starting from the specified channel before connecting to AP. If the channel of AP is unknown, set it to 0.*/
 #define ESP_MAXIMUM_RETRY  5
 esp_err_t wifi_init_sta(void);

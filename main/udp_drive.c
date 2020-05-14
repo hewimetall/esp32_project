@@ -1,12 +1,7 @@
-/* BSD Socket API Example
- This example code is in the Public Domain (or CC0 licensed, at your option.)
- Unless required by applicable law or agreed to in writing, this
- software is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR
- CONDITIONS OF ANY KIND, either express or implied.
- */
 #include "head.h"
 
 static const char *TAG = "Udp Driver";
+static const char *Command = "t";
 
 static struct sockaddr_in dest_addr;
 
@@ -63,6 +58,18 @@ static esp_err_t udp_client_recv(int *sock) {
 	return ESP_OK;
 }
 
+static esp_err_t udp_client_send_start(int *sock){
+	struct sockaddr dest_addr;
+	int err = sendto(*sock, Command, strlen(Command), 0, (struct sockaddr *)&dest_addr, sizeof(dest_addr));
+    if (err < 0) {
+        ESP_LOGE(TAG, "Error occurred during sending: errno %d", errno);
+        break;
+    }
+
+    ESP_LOGI(TAG, "Message sent");
+    return ESP_OK;
+}
+
 void udp_client_task(void *pvParameters) {
 	int sock = -1;
 	esp_err_t err = 0;
@@ -79,7 +86,7 @@ void udp_client_task(void *pvParameters) {
 		UDP_SEND_ACTIVE);
 
 		while (!err) {
-			// SEND DATE
+
 		err |= udp_client_recv(&sock);
 			vTaskDelay(2000 / portTICK_PERIOD_MS);
 		}

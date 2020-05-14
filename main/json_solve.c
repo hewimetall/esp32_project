@@ -26,18 +26,13 @@ esp_err_t solve_json(char *istr) {
 		if (*istr == '{' || *istr == ',') {
 			istr++;
 			switch (*istr) {
-			case 'x':
+			case 'r':
 				test_date=1;
 				cp_str_json(istr, &adm.x, 6);
 				break;
-			case 'y':
+			case 'p':
 				test_date++;
 				cp_str_json(istr, &adm.y, 6);
-
-				break;
-			case 'z':
-				test_date++;
-				cp_str_json(istr, &adm.z, 6);
 				break;
 			default:
 				ESP_LOGW(TAG,"WARM UNCHARM SUM %c ",*istr);

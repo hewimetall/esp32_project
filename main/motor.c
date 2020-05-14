@@ -72,7 +72,6 @@ void motor_set_state(int *row){
  * 		2 z no use
  */
 		if(row[0]>(Range_x_max) ){
-			ESP_LOGI(TAG,"set")
 			c_motor_set_state(M_Right);
 		}
 		else if(row[0] > Range_x_min){
